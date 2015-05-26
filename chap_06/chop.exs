@@ -1,7 +1,7 @@
 defmodule Chop do 
-  def guess(actual, range = low .. high) do
+  def guess(actual, range = low..high) do
     guess = div(low+high, 2)
-    IO.puts "Is it #{mid}?"
+    IO.puts "Is it #{guess}?"
     _guess(actual, guess, range)
   end
 
@@ -9,26 +9,13 @@ defmodule Chop do
     IO.puts "CORRECT!"
   end
 
-  defp _guess(actual, guess, low..high) when actual < guess do:
-    guess(actual, low..div(low + guess, 2))
-  end
+  defp _guess(actual, guess, low.._high)
+    when actual < guess,
+    do: guess(actual, low..guess-1)
 
-  defp _guess(actual, guess, low..high) do:
-    guess(actual, guess..div(guess + high, 2))
-  end
-
-  defp mid(range) do
-    first .. last = range
-    div(first + last, 2)
-  end
-
-  defp next_range(actual, pivot, prev_range) when actual < pivot do
-    first .. last = prev_range
-    first .. pivot
-  end
-
-  defp next_range(actual, pivot, prev_range) do
-    first .. last = prev_range
-    pivot .. last
-  end
+  defp _guess(actual, guess, _low..high)
+    when actual > guess,
+    do: guess(actual, guess+1..high)
 end
+
+Chop.guess(273, 1..1000)
